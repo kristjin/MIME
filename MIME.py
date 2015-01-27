@@ -2,16 +2,22 @@
 
 import wx
 
-    pass
+class SubclassFrame(wx.Frame):
+    def __init__(self):
+        wx.Frame.__init__(self, None, -1, 'Frame Subclass',
+                size=(300, 100))
+        panel = wx.Panel(self, -1)
+        button = wx.Button(panel, -1, "Close Me", pos=(15, 15))
+        self.Bind(wx.EVT_BUTTON, self.OnCloseMe, button)
+        self.Bind(wx.EVT_CLOSE, self.OnCloseWindow)
 
-class App(wx.App):
+    def OnCloseMe(self, event):
+        self.Close(True)
 
-    def OnInit(self):
-        self.frame = Frame(parent=None, title='Multiple Installation Management Engine')
-        self.frame.Show()
-        self.SetTopWindow(self.frame)
-        return True
+    def OnCloseWindow(self, event):
+        self.Destroy()
 
 if __name__ == '__main__':
-    app = App()
+    app = wx.App()
+    SubclassFrame().Show()
     app.MainLoop()
