@@ -1,10 +1,7 @@
-#!/usr/bin/env python
-
 """Multiple Installation Management Engine"""
 
 import wx
 
-class Frame(wx.Frame):
     pass
 
 class App(wx.App):
