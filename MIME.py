@@ -37,7 +37,6 @@ class My_Frame(wx.Frame):
         self.createMenuBar()
 
         #=>CREATE PANELS<=#
-        #Any changes to panels should be reflected in self.panelList()
         self.panelList = []
         sizer_h = wx.BoxSizer(wx.HORIZONTAL)
         self.PanelMain = self.addPanel(UI_main, sizer_h)
@@ -46,7 +45,7 @@ class My_Frame(wx.Frame):
         self.PanelProfiles = self.addPanel(UI_profiles, sizer_h)
         self.PanelAbout = self.addPanel(UI_about, sizer_h)
         self.SetSizer(sizer_h)
-
+        self.Center()
         self.PanelMain.ShowYourself()
 
 
@@ -100,7 +99,14 @@ class My_Frame(wx.Frame):
         self.hidePanels()
         self.PanelAbout.ShowYourself()
 
-class UI_main(wx.Panel):
+class Panel(wx.Panel):
+    def ShowYourself(self):
+        self.Raise()
+        self.Fit()
+        self.GetParent().GetSizer().Show(self)
+        self.GetParent().GetSizer().Layout()
+
+class UI_main(Panel):
 
     def __init__(self, parent, id=-1):
 
@@ -143,14 +149,7 @@ class UI_main(wx.Panel):
         self.Hide()
 
 
-    def ShowYourself(self):
-        self.Raise()
-        self.GetParent().Center()
-        self.Fit()
-        self.GetParent().GetSizer().Show(self)
-        self.GetParent().GetSizer().Layout()
-
-class UI_games(wx.Panel):
+class UI_games(Panel):
 
     def __init__(self, parent, id=-1):
 
@@ -192,14 +191,7 @@ class UI_games(wx.Panel):
         self.Hide()
 
 
-    def ShowYourself(self):
-        self.Raise()
-        self.GetParent().Center()
-        self.Fit()
-        self.GetParent().GetSizer().Show(self)
-        self.GetParent().GetSizer().Layout()
-
-class UI_filters(wx.Panel):
+class UI_filters(Panel):
 
     def __init__(self, parent, id=-1):
 
@@ -240,15 +232,7 @@ class UI_filters(wx.Panel):
         self.Fit()
         self.Hide()
 
-
-    def ShowYourself(self):
-        self.Raise()
-        self.GetParent().Center()
-        self.Fit()
-        self.GetParent().GetSizer().Show(self)
-        self.GetParent().GetSizer().Layout()
-
-class UI_profiles(wx.Panel):
+class UI_profiles(Panel):
 
     def __init__(self, parent, id=-1):
 
@@ -290,14 +274,7 @@ class UI_profiles(wx.Panel):
         self.Hide()
 
 
-    def ShowYourself(self):
-        self.Raise()
-        self.GetParent().Center()
-        self.Fit()
-        self.GetParent().GetSizer().Show(self)
-        self.GetParent().GetSizer().Layout()
-
-class UI_about(wx.Panel):
+class UI_about(Panel):
 
     def __init__(self, parent, id=-1):
 
@@ -335,19 +312,6 @@ class UI_about(wx.Panel):
         self.SetPosition((0,0))
         self.Fit()
         self.Hide()
-
-
-    def ShowYourself(self):
-        self.Raise()
-        self.GetParent().Center()
-        self.Fit()
-        self.GetParent().GetSizer().Show(self)
-        self.GetParent().GetSizer().Layout()
-
-
-
-
-
 
 
 def main():
