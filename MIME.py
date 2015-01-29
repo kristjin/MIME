@@ -17,38 +17,16 @@ class My_App(wx.App):
 
 class My_Frame(wx.Frame):
 
-    def __init__(self, parent=None,id=-1, pos=wx.DefaultPosition, style=wx.CAPTION | wx.STAY_ON_TOP):
+    def __init__(self, parent=None,id=-1, pos=wx.DefaultPosition, style=wx.DEFAULT_FRAME_STYLE | wx.STAY_ON_TOP):
 
         size = (800, 600)
+
         wx.Frame.__init__(self, parent, id, 'Multiple Installation Management Engine', pos, size, style)
 
         self.Bind(wx.EVT_CLOSE, self.OnCloseWindow)
-        self.createMenuBar()
-
-        sizer_h = wx.BoxSizer(wx.HORIZONTAL)
-
-        self.PanelMain = UI_main(self)
-        sizer_h.Add(self.PanelMain, 1, wx.EXPAND)
-
-        self.PanelGames = UI_games(self)
-        sizer_h.Add(self.PanelGames, 1, wx.EXPAND)
-
-        self.PanelFilters = UI_filters(self)
-        sizer_h.Add(self.PanelFilters, 1, wx.EXPAND)
-
-        self.PanelProfiles = UI_profiles(self)
-        sizer_h.Add(self.PanelProfiles, 1, wx.EXPAND)
-
-        self.PanelAbout = UI_about(self)
-        sizer_h.Add(self.PanelAbout, 1, wx.EXPAND)
-
-        self.SetSizer(sizer_h)
-
-        self.PanelMain.ShowYourself()
-
-
-    def menuData(self):
-        return (("&Settings",
+        #=>CREATE MENU BAR<=#
+        self.menuData = \
+                (("&Settings",
                     ("&Games", "Games Settings", self.OnGames),
                     ("&Filters", "Filter Settings", self.OnFilters),
                     ("&Profiles", "Profile Settings", self.OnProfiles),
@@ -56,13 +34,46 @@ class My_Frame(wx.Frame):
                     ("&Quit", "Quit", self.OnCloseWindow)),
                 ("&Help",
                     ("&About", "About MIME", self.OnAbout)))
+        self.createMenuBar()
+
+        #=>CREATE PANELS<=#
+        #Any changes to panels should be reflected in self.panelList()
+        self.panelList = []
+        sizer_h = wx.BoxSizer(wx.HORIZONTAL)
+        self.PanelMain = self.addPanel(UI_main, sizer_h)
+        self.PanelGames = self.addPanel(UI_games, sizer_h)
+        self.PanelFilters = self.addPanel(UI_filters, sizer_h)
+        self.PanelProfiles = self.addPanel(UI_profiles, sizer_h)
+        self.PanelAbout = self.addPanel(UI_about, sizer_h)
+        self.SetSizer(sizer_h)
+
+        self.PanelMain.ShowYourself()
+
+
+    def hidePanels(self):
+        #hides each panel in self.panelList()
+        for eachPanel in self.panelList:
+            eachPanel.Hide()
+
+    def OnCloseWindow(self, event):
+        #what to do when top level is closed
+        self.Destroy()
+
+    def addPanel(self, uiClass, sizer):
+        #panel constructor, called in My_Frame.__init__
+        panel = uiClass(self)
+        self.panelList.append(panel)
+        sizer.Add(panel, 1, wx.EXPAND)
+        return panel
+
     def createMenuBar(self):
         menuBar = wx.MenuBar()
-        for eachMenuData in self.menuData():
+        for eachMenuData in self.menuData:
             menuLabel = eachMenuData[0]
             menuItems = eachMenuData[1:]
             menuBar.Append(self.createMenu(menuItems), menuLabel)
         self.SetMenuBar(menuBar)
+
     def createMenu(self, menuData):
         menu = wx.Menu()
         for eachLabel, eachStatus, eachHandler in menuData:
@@ -73,16 +84,21 @@ class My_Frame(wx.Frame):
             self.Bind(wx.EVT_MENU, eachHandler, menuItem)
         return menu
 
-    def OnCloseWindow(self, event):
-        self.Destroy()
+    def OnGames(self, event):
+        self.hidePanels()
+        self.PanelGames.ShowYourself()
 
-    # Just grouping the empty event handlers together
-    def OnGames(self, event): pass
-    def OnFilters(self, event): pass
-    def OnProfiles(self, event): pass
-    def OnAbout(self, event): pass
+    def OnFilters(self, event):
+        self.hidePanels()
+        self.PanelFilters.ShowYourself()
 
+    def OnProfiles(self, event):
+        self.hidePanels()
+        self.PanelProfiles.ShowYourself()
 
+    def OnAbout(self, event):
+        self.hidePanels()
+        self.PanelAbout.ShowYourself()
 
 class UI_main(wx.Panel):
 
