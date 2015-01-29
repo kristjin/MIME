@@ -106,6 +106,12 @@ class Panel(wx.Panel):
         self.GetParent().GetSizer().Show(self)
         self.GetParent().GetSizer().Layout()
 
+    def finish(self):
+        self.Raise()
+        self.SetPosition((0,0))
+        self.Fit()
+        self.Hide()
+
 class UI_main(Panel):
 
     def __init__(self, parent, id=-1):
@@ -142,11 +148,7 @@ class UI_main(Panel):
         # finish master sizer
         mastersizer.AddSpacer(15)
         self.SetSizer(mastersizer)
-
-        self.Raise()
-        self.SetPosition((0,0))
-        self.Fit()
-        self.Hide()
+        self.finish()
 
 
 class UI_games(Panel):
@@ -181,14 +183,10 @@ class UI_games(Panel):
 
         # build the save button, etc
 
-        # finish master sizer
         mastersizer.AddSpacer(15)
         self.SetSizer(mastersizer)
+        self.finish()
 
-        self.Raise()
-        self.SetPosition((0,0))
-        self.Fit()
-        self.Hide()
 
 
 class UI_filters(Panel):
@@ -227,10 +225,7 @@ class UI_filters(Panel):
         mastersizer.AddSpacer(15)
         self.SetSizer(mastersizer)
 
-        self.Raise()
-        self.SetPosition((0,0))
-        self.Fit()
-        self.Hide()
+        self.finish()
 
 class UI_profiles(Panel):
 
@@ -268,10 +263,7 @@ class UI_profiles(Panel):
         mastersizer.AddSpacer(15)
         self.SetSizer(mastersizer)
 
-        self.Raise()
-        self.SetPosition((0,0))
-        self.Fit()
-        self.Hide()
+        self.finish()
 
 
 class UI_about(Panel):
@@ -308,10 +300,7 @@ class UI_about(Panel):
         mastersizer.AddSpacer(15)
         self.SetSizer(mastersizer)
 
-        self.Raise()
-        self.SetPosition((0,0))
-        self.Fit()
-        self.Hide()
+        self.finish()
 
 
 def main():
