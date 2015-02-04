@@ -20,7 +20,7 @@ class MainFrame(wx.Frame):
 
     def __init__(self, parent=None,id=-1, pos=wx.DefaultPosition, style=wx.DEFAULT_FRAME_STYLE | wx.STAY_ON_TOP):
 
-        size = (800, 600)
+        size = (600, 400)
 
         wx.Frame.__init__(self, parent, id, 'Multiple Installation Management Engine', pos, size, style)
 
